@@ -1,4 +1,4 @@
-# gcp-compliance-scanner
+# cloudpolicy-ai
 
 A Terraform GCP infrastructure compliance scanner with an optional
 **Vertex AI (Gemini)** explanation layer.
@@ -17,12 +17,12 @@ inspectable and extensible.
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/gcp-compliance-scanner.git
-cd gcp-compliance-scanner
+git clone https://github.com/<your-username>/cloudpolicy-ai.git
+cd cloudpolicy-ai
 pip install -e .
 
 # Scan the intentionally-vulnerable example
-gcp-compliance-scanner scan examples/vulnerable-gcp-infra
+cloudpolicy-ai scan examples/vulnerable-gcp-infra
 ```
 
 ### Vertex AI explanation layer
@@ -35,7 +35,7 @@ pip install -e ".[ai]"
 gcloud auth application-default login
 export GOOGLE_CLOUD_PROJECT=your-gcp-project-id
 
-gcp-compliance-scanner scan examples/vulnerable-gcp-infra --explain
+cloudpolicy-ai scan examples/vulnerable-gcp-infra --explain
 ```
 
 `--explain` is entirely optional — the scanner works fully without it, no
@@ -44,7 +44,7 @@ GCP project or credentials required for a plain scan.
 ### CI usage
 
 ```bash
-gcp-compliance-scanner scan ./terraform --fail-on CRITICAL --format json --output report.json
+cloudpolicy-ai scan ./terraform --fail-on CRITICAL --format json --output report.json
 ```
 
 ## What it checks

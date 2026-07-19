@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gcp-compliance-scanner"
+name = "cloudpolicy-ai"
 version = "0.1.0"
 description = "A GCP Terraform compliance scanner with an optional Vertex AI (Gemini) explanation layer."
 readme = "README.md"
@@ -21,7 +21,7 @@ ai = ["google-cloud-aiplatform>=1.70.0"]
 dev = ["pytest>=8.0.0", "pytest-cov>=5.0.0"]
 
 [project.scripts]
-gcp-compliance-scanner = "gcp_compliance_scanner.cli:cli"
+cloudpolicy-ai = "cloudpolicy_ai.cli:cli"
 
 [tool.setuptools.packages.find]
-include = ["gcp_compliance_scanner*"]
+include = ["cloudpolicy_ai*"]

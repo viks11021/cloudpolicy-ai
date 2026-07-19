@@ -1,9 +1,9 @@
-from gcp_compliance_scanner.parser import TerraformResource
-from gcp_compliance_scanner.rules.cloud_sql import BackupConfigRule, PublicIPRule
-from gcp_compliance_scanner.rules.firewall import AllowAllProtocolsRule, OpenSensitivePortRule
-from gcp_compliance_scanner.rules.iam import PrimitiveRoleRule, PublicProjectAccessRule
-from gcp_compliance_scanner.rules.labels import RequiredLabelsRule
-from gcp_compliance_scanner.rules.storage import (
+from cloudpolicy_ai.parser import TerraformResource
+from cloudpolicy_ai.rules.cloud_sql import BackupConfigRule, PublicIPRule
+from cloudpolicy_ai.rules.firewall import AllowAllProtocolsRule, OpenSensitivePortRule
+from cloudpolicy_ai.rules.iam import PrimitiveRoleRule, PublicProjectAccessRule
+from cloudpolicy_ai.rules.labels import RequiredLabelsRule
+from cloudpolicy_ai.rules.storage import (
     PublicIAMMemberRule,
     UniformBucketAccessRule,
     VersioningRule,

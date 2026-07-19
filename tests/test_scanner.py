@@ -1,6 +1,6 @@
 import os
 
-from gcp_compliance_scanner.scanner import rule_count, scan_directory
+from cloudpolicy_ai.scanner import rule_count, scan_directory
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(__file__), "..", "examples", "vulnerable-gcp-infra")
 

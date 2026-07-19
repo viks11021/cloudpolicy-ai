@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from gcp_compliance_scanner.parser import parse_directory, parse_file
+from cloudpolicy_ai.parser import parse_directory, parse_file
 
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__), "fixtures")
 

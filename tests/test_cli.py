@@ -3,7 +3,7 @@ import os
 
 from click.testing import CliRunner
 
-from gcp_compliance_scanner.cli import cli
+from cloudpolicy_ai.cli import cli
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(__file__), "..", "examples", "vulnerable-gcp-infra")
 
