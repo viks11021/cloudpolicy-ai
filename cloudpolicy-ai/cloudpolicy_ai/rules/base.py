@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Protocol
 
-from gcp_compliance_scanner.parser import TerraformResource
+from cloudpolicy_ai.parser import TerraformResource
 
 
 class Severity(str, Enum):

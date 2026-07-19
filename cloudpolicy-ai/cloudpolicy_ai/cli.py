@@ -2,7 +2,7 @@
 cli.py — Command-line entry point.
 
 Usage:
-    gcp-compliance-scanner scan <directory> [--format console|json|markdown] [--explain] [--fail-on SEVERITY]
+    cloudpolicy-ai scan <directory> [--format console|json|markdown] [--explain] [--fail-on SEVERITY]
 """
 
 from __future__ import annotations
@@ -11,10 +11,10 @@ import sys
 
 import click
 
-from gcp_compliance_scanner import report
-from gcp_compliance_scanner.rules.base import Severity
-from gcp_compliance_scanner.scanner import rule_count, scan_directory
-from gcp_compliance_scanner.vertex_explainer import AIExplainerError, explain_findings
+from cloudpolicy_ai import report
+from cloudpolicy_ai.rules.base import Severity
+from cloudpolicy_ai.scanner import rule_count, scan_directory
+from cloudpolicy_ai.vertex_explainer import AIExplainerError, explain_findings
 
 SEVERITY_RANK = {Severity.LOW: 0, Severity.MEDIUM: 1, Severity.HIGH: 2, Severity.CRITICAL: 3}
 

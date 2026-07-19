@@ -7,7 +7,7 @@ from __future__ import annotations
 import json
 from dataclasses import asdict
 
-from gcp_compliance_scanner.rules.base import Finding, Severity
+from cloudpolicy_ai.rules.base import Finding, Severity
 
 SEVERITY_ORDER = {
     Severity.CRITICAL: 0,

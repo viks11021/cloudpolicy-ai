@@ -1,5 +1,5 @@
 """
-gcp-compliance-scanner
+cloudpolicy-ai
 A Terraform GCP infrastructure compliance scanner with an optional
 Vertex AI (Gemini) explanation layer.
 

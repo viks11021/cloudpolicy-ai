@@ -4,8 +4,8 @@ firewall.py — VPC firewall rule compliance checks.
 
 from __future__ import annotations
 
-from gcp_compliance_scanner.parser import TerraformResource
-from gcp_compliance_scanner.rules.base import Finding, Severity
+from cloudpolicy_ai.parser import TerraformResource
+from cloudpolicy_ai.rules.base import Finding, Severity
 
 SENSITIVE_PORTS = {"22": "SSH", "3389": "RDP", "3306": "MySQL", "5432": "PostgreSQL", "6379": "Redis"}
 OPEN_CIDR = "0.0.0.0/0"

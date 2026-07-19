@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudpolicy-ai"
+version = "0.1.0"
+description = "A GCP Terraform compliance scanner with an optional Vertex AI (Gemini) explanation layer."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Vikas Raut" }]
+dependencies = [
+    "python-hcl2==8.1.2",
+    "click>=8.1.0",
+    "rich>=13.0.0",
+]
+
+[project.optional-dependencies]
+ai = ["google-cloud-aiplatform>=1.70.0"]
+dev = ["pytest>=8.0.0", "pytest-cov>=5.0.0"]
+
+[project.scripts]
+cloudpolicy-ai = "cloudpolicy_ai.cli:cli"
+
+[tool.setuptools.packages.find]
+include = ["cloudpolicy_ai*"]

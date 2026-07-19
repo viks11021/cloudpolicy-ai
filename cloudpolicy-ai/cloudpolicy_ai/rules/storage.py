@@ -4,8 +4,8 @@ storage.py — Google Cloud Storage bucket compliance rules.
 
 from __future__ import annotations
 
-from gcp_compliance_scanner.parser import TerraformResource
-from gcp_compliance_scanner.rules.base import Finding, Severity
+from cloudpolicy_ai.parser import TerraformResource
+from cloudpolicy_ai.rules.base import Finding, Severity
 
 PUBLIC_MEMBERS = {"allUsers", "allAuthenticatedUsers"}
 

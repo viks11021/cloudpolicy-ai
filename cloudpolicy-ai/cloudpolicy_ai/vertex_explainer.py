@@ -27,7 +27,7 @@ from __future__ import annotations
 import os
 import textwrap
 
-from gcp_compliance_scanner.rules.base import Finding
+from cloudpolicy_ai.rules.base import Finding
 
 SYSTEM_PROMPT = textwrap.dedent(
     """\

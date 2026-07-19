@@ -5,9 +5,9 @@ parsed Terraform resources, and collects findings.
 
 from __future__ import annotations
 
-from gcp_compliance_scanner.parser import TerraformResource, parse_directory
-from gcp_compliance_scanner.rules import cloud_sql, firewall, iam, labels, storage
-from gcp_compliance_scanner.rules.base import Finding
+from cloudpolicy_ai.parser import TerraformResource, parse_directory
+from cloudpolicy_ai.rules import cloud_sql, firewall, iam, labels, storage
+from cloudpolicy_ai.rules.base import Finding
 
 RULE_MODULES = [storage, firewall, iam, cloud_sql, labels]
 

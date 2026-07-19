@@ -7,8 +7,8 @@ way for cost allocation and ownership tracking.
 
 from __future__ import annotations
 
-from gcp_compliance_scanner.parser import TerraformResource
-from gcp_compliance_scanner.rules.base import Finding, Severity
+from cloudpolicy_ai.parser import TerraformResource
+from cloudpolicy_ai.rules.base import Finding, Severity
 
 REQUIRED_LABELS = {"environment", "owner"}
 LABELABLE_TYPES = (
