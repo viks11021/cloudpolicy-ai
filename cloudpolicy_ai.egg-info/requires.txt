@@ -1,0 +1,10 @@
+python-hcl2==8.1.2
+click>=8.1.0
+rich>=13.0.0
+
+[ai]
+google-cloud-aiplatform>=1.70.0
+
+[dev]
+pytest>=8.0.0
+pytest-cov>=5.0.0
