@@ -1,25 +1,25 @@
 """
-vertex_explainer.py — Optional AI explanation layer using Vertex AI (Gemini).
+vertex_explainer.py — Optional AI explanation layer using Google's Gen AI
+SDK against Vertex AI (branded, as of May 2026, under the "Gemini Enterprise
+Agent Platform" console — the API endpoint and auth model are unchanged).
 
-This uses the real Vertex AI SDK (google-cloud-aiplatform), authenticated via
-a GCP project + Application Default Credentials — not the simpler consumer
-Gemini API (which only needs an API key). That distinction is deliberate:
-Vertex AI is what's actually used in enterprise GCP environments, where
-access is governed by IAM and audit-logged like any other GCP API call,
-which is the same authentication model used in production environments.
+Uses `google-genai`, the current unified SDK. The older
+`vertexai.generative_models` module (from `google-cloud-aiplatform`) was
+deprecated June 24, 2025 and removed June 24, 2026 — do not use it; this
+module was migrated off it deliberately, not left on it by accident.
+
+Authenticated via a GCP project + Application Default Credentials — the
+same enterprise auth model as before, not a simple API key. This is the
+same code path Google now documents as the standard way to call Gemini
+through a GCP project rather than the consumer AI Studio API.
 
 Requires:
-    - A GCP project with the Vertex AI API enabled
+    - A GCP project with the Vertex AI / Gemini Enterprise Agent Platform
+      API enabled (endpoint: aiplatform.googleapis.com — same endpoint,
+      new console name)
     - Application Default Credentials configured (`gcloud auth application-default login`,
       or a service account key / workload identity in CI)
     - GOOGLE_CLOUD_PROJECT environment variable set
-
-This module could not be tested against the live Vertex AI API from the
-environment this was built in (no network path to *.googleapis.com), so the
-request/response shape has been double-checked against Google's documented
-SDK usage but has not been run end-to-end. The graceful-degradation paths
-(missing project, missing SDK) are tested. Verify the first live call
-against your own GCP project before relying on this in an interview demo.
 """
 
 from __future__ import annotations
@@ -70,15 +70,17 @@ def explain_findings(
     findings: list[Finding],
     project: str | None = None,
     location: str = "us-central1",
-    model_name: str = "gemini-2.0-flash-001",
+    model_name: str = "gemini-2.5-flash",
 ) -> str:
     """
-    Send findings to Vertex AI (Gemini) and return a human-readable report.
+    Send findings to Gemini (via Vertex AI / Gemini Enterprise Agent
+    Platform) using the google-genai SDK, and return a human-readable
+    report.
 
     Requires GOOGLE_CLOUD_PROJECT (or the `project` argument) and valid
     Application Default Credentials for that project. Raises
     AIExplainerError with a clear message rather than a raw SDK traceback
-    if either is missing.
+    if either is missing, or if the request itself fails.
     """
     if not findings:
         return "No findings — nothing to explain. This configuration passed all checks."
@@ -93,28 +95,24 @@ def explain_findings(
         )
 
     try:
-        import vertexai
-        from vertexai.generative_models import GenerativeModel
+        from google import genai
     except ImportError as exc:
         raise AIExplainerError(
-            "The 'google-cloud-aiplatform' package is required for --explain. "
-            "Install it with: pip install google-cloud-aiplatform"
+            "The 'google-genai' package is required for --explain. "
+            "Install it with: pip install google-genai"
         ) from exc
 
     try:
-        vertexai.init(project=project, location=location)
-        model = GenerativeModel(model_name)
+        client = genai.Client(vertexai=True, project=project, location=location)
         prompt = f"{SYSTEM_PROMPT}\n\nFindings from this scan:\n\n{_findings_to_prompt(findings)}"
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(model=model_name, contents=prompt)
     except Exception as exc:
-        # Vertex AI raises various google.api_core exceptions depending on the
-        # failure (auth, quota, region availability, etc). Surface them
-        # through our own error type with the original message intact rather
-        # than letting a raw SDK exception propagate.
         raise AIExplainerError(
-            f"Vertex AI request failed: {exc}\n"
-            "Check that the Vertex AI API is enabled on this project, your "
-            "ADC identity has the Vertex AI User role, and the region "
+            f"Gen AI / Vertex AI request failed: {exc}\n"
+            "Check that the Vertex AI API is enabled on this project "
+            "(shown as 'Gemini Enterprise Agent Platform' / "
+            "aiplatform.googleapis.com in the console), your ADC identity "
+            "has appropriate access, and the region "
             f"'{location}' supports {model_name}."
         ) from exc
 

@@ -1,4 +1,4 @@
 python-hcl2==8.1.2
 click>=8.1.0
 rich>=13.0.0
-google-cloud-aiplatform>=1.70.0
+google-genai>=1.0.0

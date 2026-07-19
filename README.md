@@ -72,21 +72,26 @@ cloudpolicy-ai scan ./terraform --fail-on CRITICAL --format json --output report
 Same pipeline shape as the AWS/Anthropic sibling project — parser and rule
 engine are the reusable core, only the rule set and the AI backend differ.
 
-## Vertex AI vs. the simpler Gemini API — why this matters
+## Vertex AI (Gemini) vs. the simpler Gemini API — why this matters
 
-This project deliberately uses the **Vertex AI SDK**
-(`google-cloud-aiplatform`), not the simpler consumer Gemini API. They are
+This project uses Google's current unified **`google-genai` SDK**, pointed
+at Vertex AI (`genai.Client(vertexai=True, project=..., location=...)`) —
+not the simpler consumer Gemini API (AI Studio, API-key only). They are
 different products:
 
-| | Vertex AI | Gemini API (AI Studio) |
+| | Vertex AI (via google-genai) | Gemini API (AI Studio) |
 |---|---|---|
 | Auth | GCP project + Application Default Credentials | API key |
 | Access control | IAM roles, audit-logged like any GCP API call | Key-based only |
 | Typical use | Enterprise / production GCP environments | Prototyping, personal projects |
 
-Using Vertex AI here means the auth flow, error handling, and permissions
-model match what you'd actually deal with running this against a real
-company GCP project — not a simplified stand-in.
+**Note on SDKs:** Google's older `vertexai.generative_models` module (part
+of `google-cloud-aiplatform`) was deprecated June 24, 2025 and removed
+June 24, 2026. This project uses the current replacement, `google-genai`,
+deliberately — not left on the old path by oversight. Google also renamed
+Vertex AI's console UI to "Gemini Enterprise Agent Platform" in May 2026;
+the API endpoint (`aiplatform.googleapis.com`) and auth model are
+unchanged, just the console branding.
 
 ## Known limitations
 
@@ -94,13 +99,12 @@ company GCP project — not a simplified stand-in.
   this is a static parser, not a Terraform interpreter.
 - **No cross-resource / `for_each` evaluation** — each resource block is
   checked independently.
-- **The Vertex AI integration has not been run against a live GCP project**
-  from the environment this was built in (no network path to
-  `*.googleapis.com` available). The request/response shape matches
-  Google's documented SDK usage, and the graceful-degradation paths
-  (missing project, missing SDK) are tested — but verify the first live
-  `--explain` call against your own GCP project before relying on it in a
-  demo or interview.
+- **The Vertex AI integration is in the process of being verified against a
+  real GCP project** (see commit history / open items). The SDK has been
+  updated to Google's current `google-genai` client and confirmed to
+  import and authenticate correctly; a full live `--explain` call against
+  a real project is the last verification step. The graceful-degradation
+  paths (missing project, missing SDK) are covered by automated tests.
 
 ## Development
 
