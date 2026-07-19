@@ -99,12 +99,26 @@ unchanged, just the console branding.
   this is a static parser, not a Terraform interpreter.
 - **No cross-resource / `for_each` evaluation** — each resource block is
   checked independently.
-- **The Vertex AI integration is in the process of being verified against a
-  real GCP project** (see commit history / open items). The SDK has been
-  updated to Google's current `google-genai` client and confirmed to
-  import and authenticate correctly; a full live `--explain` call against
-  a real project is the last verification step. The graceful-degradation
-  paths (missing project, missing SDK) are covered by automated tests.
+
+## Verification
+
+The full pipeline — parse → scan → rule engine → Gemini call — has been
+run end-to-end against a real GCP project, not just unit tested. That
+includes a live `--explain` call returning a genuine Gemini-generated
+summary (verified July 2026, using `google-genai` against
+`gemini-2.5-flash`).
+
+Two things worth knowing if you fork this:
+- Google retires specific Gemini model versions on the order of months,
+  not years — `gemini-2.0-flash-001` (the model this project originally
+  shipped with) was shut down June 1, 2026. Use `--model` to override the
+  default if it 404s for you, and check
+  [Model Garden](https://console.cloud.google.com/vertex-ai/model-garden)
+  for current model names.
+- The graceful-degradation paths (no `GOOGLE_CLOUD_PROJECT` set, SDK not
+  installed) are covered by automated tests; the live Gemini call itself
+  is necessarily excluded from CI, since it requires real GCP credentials
+  and incurs (small) real cost.
 
 ## Development
 
